@@ -20,7 +20,7 @@ class Drawer:
     def line2(self, startPoint, finishPoint, image, color):  # Вариант 2
         for x in range(startPoint[0], finishPoint[0]):
             t = (x - startPoint[0]) / (finishPoint[0] - startPoint[0])
-            y = int(startPoint[1] * (1 - t) + finishPoint[1] * t)
+            y = int(round(startPoint[1] * (1 - t) + finishPoint[1] * t))
             image.set(x, y, color)
 
     def line3(self, startPoint, finishPoint, image, color):  # Вариант 3
