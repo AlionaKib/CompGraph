@@ -26,15 +26,14 @@ class Drawer:
     def line3(self, startPoint, finishPoint, image, color):  # Вариант 3
         steep = False
         if math.fabs(startPoint[0] - finishPoint[0]) < math.fabs(startPoint[1] - finishPoint[1]):
-            self.swap(startPoint[0], startPoint[1])
-            self.swap(finishPoint[0], finishPoint[1])
-            self.steep = True
+            startPoint = (startPoint[1], startPoint[0])
+            finishPoint = (finishPoint[1], finishPoint[0])
+            steep = True
         if startPoint[0] > finishPoint[0]:
-            self.swap(startPoint[0], finishPoint[0])
-            self.swap(startPoint[1], finishPoint[1])
+            startPoint, finishPoint = finishPoint, startPoint
         for x in range(startPoint[0], finishPoint[0]):
             t = (x - startPoint[0]) / (finishPoint[0] - startPoint[0])
-            y = int(startPoint[1] * (1 - t) + finishPoint[1] * t)
+            y = int(round(startPoint[1] * (1 - t) + finishPoint[1] * t) )
             if steep:
                 image.set(y, x, color)
             else:
@@ -43,13 +42,12 @@ class Drawer:
     def line4(self, startPoint, finishPoint, image, color):  # Вариант 4. Брезенхем
         steep = False
         if math.fabs(startPoint[0] - finishPoint[0]) < math.fabs(startPoint[1] - finishPoint[1]):
-            self.swap(startPoint[0], startPoint[1])
-            self.swap(finishPoint[0], finishPoint[1])
-            self.steep = True
+            startPoint = (startPoint[1], startPoint[0])
+            finishPoint = (finishPoint[1], finishPoint[0])
+            steep = True
 
         if startPoint[0] > finishPoint[0]:
-            self.swap(startPoint[0], finishPoint[0])
-            self.swap(startPoint[1], finishPoint[1])
+            startPoint, finishPoint = finishPoint, startPoint
 
         dx = -startPoint[0] + finishPoint[0]
         dy = -startPoint[1] + finishPoint[1]
