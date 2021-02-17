@@ -1,17 +1,19 @@
-from PIL import Image, ImageDraw
+from pyparsing import *
+import re
 
-image = Image.open('resultRand.jpg')  # Открываем изображение
-draw = ImageDraw.Draw(image)  # Создаем инструмент для рисования
-width = image.size[0]  # Определяем ширину
-height = image.size[1]  # Определяем высоту
-pix = image.load()  # Выгружаем значения пикселей
+module_name = Word(alphas + '_')
+full_module_name = module_name + ZeroOrMore('.' + module_name)
+import_as = Optional('as' + module_name)
+parse_module = 'import' + full_module_name + import_as
 
-for x in range(width):
-    for y in range(height):
-       r = pix[x, y][0] #узнаём значение красного цвета пикселя
-       g = pix[x, y][1] #зелёного
-       b = pix[x, y][2] #синего
-       sr = (r + g + b) // 3 #среднее значение
-       draw.point((x, y), (sr, sr, sr)) #рисуем пиксель
+f = open('Test.obj')
+for line in f:
+    s = f.readline()
+    if len(s) > 0 and (s[0] == 'v') and (s[1] == ' '):
+        t = ()
+        nums = re.findall(r'[-+]?[.]?[\d]+(?:,\d\d\d)*[\.]?\d*(?:[eE][-+]?\d+)?', s)
+        nums = [float(i) for i in nums]
+        t = (nums[0], nums[1], nums[2])
+        print(t)
+f.close()
 
-image.save("result.jpg", "JPEG") #не забываем сохранить изображение

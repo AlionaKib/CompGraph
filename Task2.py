@@ -14,7 +14,7 @@ class MyImage:
                 self.image_arr[x, y] = (0, 0, 0)
 
     def loadImage(self, imageName):
-        image = Image.open("resultRand.jpg")  # Открываем изображение
+        image = Image.open(imageName)  # Открываем изображение
         self.size = image.size
         self.width = image.size[0]  # Определяем ширину
         self.height = image.size[1]  # Определяем высоту
@@ -44,11 +44,11 @@ class MyImage:
 
 """
 image = MyImage(100, 100)
-image.loadImage('resultRand.jpg')
+image.loadImage('Task1_Multicolor.jpg')
 print(image.get(100, 100))
 for i in range(50, 100):
     for j in range(50, 100):
         image.set(i, j, (255, 0, 0))
 
-image.save('MyImageTest.jpg')
+image.save('Task2_MyImageTest.jpg')
 """
