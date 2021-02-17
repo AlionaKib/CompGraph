@@ -2,12 +2,12 @@ from Task2 import MyImage
 import numpy as np
 import math as math
 
+
 class Drawer:
     def swap(self, x, y):
         t = x
         x = y
         y = t
-
 
     def line1(self, startPoint, finishPoint, image, color, dt):  # Простейшая прямая
         t = 0
@@ -17,13 +17,11 @@ class Drawer:
             image.set(x, y, color)
             t += dt
 
-
     def line2(self, startPoint, finishPoint, image, color):  # Вариант 2
         for x in range(startPoint[0], finishPoint[0]):
             t = (x - startPoint[0]) / (finishPoint[0] - startPoint[0])
             y = int(startPoint[1] * (1 - t) + finishPoint[1] * t)
             image.set(x, y, color)
-
 
     def line3(self, startPoint, finishPoint, image, color):  # Вариант 3
         steep = False
@@ -41,6 +39,40 @@ class Drawer:
                 image.set(y, x, color)
             else:
                 image.set(x, y, color)
+
+    def line4(self, startPoint, finishPoint, image, color):  # Вариант 4. Брезенхем
+        steep = False
+        if math.fabs(startPoint[0] - finishPoint[0]) < math.fabs(startPoint[1] - finishPoint[1]):
+            self.swap(startPoint[0], startPoint[1])
+            self.swap(finishPoint[0], finishPoint[1])
+            self.steep = True
+
+        if startPoint[0] > finishPoint[0]:
+            self.swap(startPoint[0], finishPoint[0])
+            self.swap(startPoint[1], finishPoint[1])
+
+        dx = -startPoint[0] + finishPoint[0]
+        dy = -startPoint[1] + finishPoint[1]
+        if dx == 0:
+            derror = 0
+        else:
+            derror = math.fabs(dy / dx)
+        error = 0
+        y = startPoint[1]
+
+        for x in range(startPoint[0], finishPoint[0]):
+            if steep:
+                image.set(y, x, color)
+            else:
+                image.set(x, y, color)
+            error += derror
+            if error > 0.5:
+                if startPoint[1] > finishPoint[1]:
+                    y += -1
+                else:
+                    y += 1
+                error -= 1
+
 
 drawer = Drawer()
 
@@ -72,3 +104,8 @@ image = MyImage(200, 200)
 for finishPoint in finishPoints:
     drawer.line3(startPoint, finishPoint, image, (255, 255, 255))
 image.save('Task3_Line4.jpg')
+
+image = MyImage(200, 200)
+for finishPoint in finishPoints:
+    drawer.line4(startPoint, finishPoint, image, (255, 255, 255))
+image.save('Task3_Line5.jpg')

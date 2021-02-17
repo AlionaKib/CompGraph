@@ -21,8 +21,8 @@ for cord in cords:
     k += 1
 
 for poligon in poligons:
-    drawer.line3(points[poligon[0] - 1], points[poligon[1] - 1], image, (255, 255, 255))
-    drawer.line3(points[poligon[1] - 1], points[poligon[2] - 1], image, (255, 255, 255))
-    drawer.line3(points[poligon[2] - 1], points[poligon[0] - 1], image, (255, 255, 255))
+    drawer.line4(points[poligon[0] - 1], points[poligon[1] - 1], image, (255, 255, 255))
+    drawer.line4(points[poligon[1] - 1], points[poligon[2] - 1], image, (255, 255, 255))
+    drawer.line4(points[poligon[2] - 1], points[poligon[0] - 1], image, (255, 255, 255))
 
 image.save('Task7.jpg')
