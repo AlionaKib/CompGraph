@@ -86,24 +86,24 @@ for k in range(0, 13):
 image = MyImage(200, 200)
 for finishPoint in finishPoints:
     drawer.line1(startPoint, finishPoint, image, (255, 255, 255), 0.01)
-image.save('Task3_Line1.jpg')
+image.save('Output/Task3_Line1.jpg')
 
 image = MyImage(200, 200)
 for finishPoint in finishPoints:
     drawer.line1(startPoint, finishPoint, image, (255, 255, 255), 0.1)
-image.save('Task3_Line2.jpg')
+image.save('Output/Task3_Line2.jpg')
 
 image = MyImage(200, 200)
 for finishPoint in finishPoints:
     drawer.line2(startPoint, finishPoint, image, (255, 255, 255))
-image.save('Task3_Line3.jpg')
+image.save('Output/Task3_Line3.jpg')
 
 image = MyImage(200, 200)
 for finishPoint in finishPoints:
     drawer.line3(startPoint, finishPoint, image, (255, 255, 255))
-image.save('Task3_Line4.jpg')
+image.save('Output/Task3_Line4.jpg')
 
 image = MyImage(200, 200)
 for finishPoint in finishPoints:
     drawer.line4(startPoint, finishPoint, image, (255, 255, 255))
-image.save('Task3_Line5.jpg')
+image.save('Output/Task3_Line5.jpg')

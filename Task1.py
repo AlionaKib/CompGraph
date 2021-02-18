@@ -17,7 +17,7 @@ for x in range(width):
         g = int(255 * pix[x, y])
         draw.point((x, y), g)  # рисуем пиксель
 
-image.save("Task1_Black.jpg", "JPEG")  # не забываем сохранить изображение
+image.save("Output/Task1_Black.jpg", "JPEG")  # не забываем сохранить изображение
 
 pix = np.ones((H, W), dtype=int)  # Матрица HxW заполненная единицами
 
@@ -33,7 +33,7 @@ for x in range(width):
         g = int(255 * pix[x, y])
         draw.point((x, y), g)  # рисуем пиксель
 
-image.save("Task1_White.jpg", "JPEG")  # не забываем сохранить изображение
+image.save("Output/Task1_White.jpg", "JPEG")  # не забываем сохранить изображение
 
 pix = np.ones((H, W), dtype=tuple)
 
@@ -53,7 +53,7 @@ for x in range(width):
         g = pix[x, y]
         draw.point((x, y), g)  # рисуем пиксель
 
-image.save("Task1_Red.jpg", "JPEG")  # не забываем сохранить изображение
+image.save("Output/Task1_Red.jpg", "JPEG")  # не забываем сохранить изображение
 
 pix = np.ones((H, W), dtype=tuple)
 
@@ -76,4 +76,4 @@ for x in range(width):
         g = pix[x, y]
         draw.point((x, y), g)  # рисуем пиксель
 
-image.save("Task1_Multicolor.jpg", "JPEG")  # не забываем сохранить изображение
+image.save("Output/Task1_Multicolor.jpg", "JPEG")  # не забываем сохранить изображение

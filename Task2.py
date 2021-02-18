@@ -44,11 +44,11 @@ class MyImage:
 
 """
 image = MyImage(100, 100)
-image.loadImage('Task1_Multicolor.jpg')
+image.loadImage('Output/Task1_Multicolor.jpg')
 print(image.get(100, 100))
 for i in range(50, 100):
     for j in range(50, 100):
         image.set(i, j, (255, 0, 0))
 
-image.save('Task2_MyImageTest.jpg')
+image.save('Output/Task2_MyImageTest.jpg')
 """

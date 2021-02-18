@@ -5,7 +5,7 @@ class Model:
         self.cords = []
         self.poligons = []
 
-    def load(self, fileName):
+    def load(self, fileName, polygonsNumber):
         f = open(fileName)
         self.cords.clear()
         self.poligons.clear()
@@ -21,7 +21,7 @@ class Model:
                 t = ()
                 nums = re.findall(r'\d+', s)
                 nums = [int(i) for i in nums]
-                t = (nums[0], nums[3], nums[6])
+                t = (nums[polygonsNumber[0]], nums[polygonsNumber[1]], nums[polygonsNumber[2]])
                 self.poligons.append(t)
         f.close()
 
