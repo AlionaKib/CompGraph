@@ -7,6 +7,8 @@ class Model:
 
     def load(self, fileName):
         f = open(fileName)
+        self.cords.clear()
+        self.poligons.clear()
         for line in f:
             s = line
             if len(s) > 0 and (s[0] == 'v') and (s[1] == ' '):
@@ -15,7 +17,7 @@ class Model:
                 nums = [float(i) for i in nums]
                 t = (nums[0], nums[1], nums[2])
                 self.cords.append(t)
-            if len(s) > 0 and (s[0] == 'f'):
+            if len(s) > 0 and (s[0] == 'f') and (s[1] == ' '):
                 t = ()
                 nums = re.findall(r'\d+', s)
                 nums = [int(i) for i in nums]
