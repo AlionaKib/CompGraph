@@ -9,9 +9,11 @@ class MyImage:
         self.height = height
         self.width = width
         self.size = self.image_arr.shape
+        self.z_buffer = np.zeros((width, height), dtype=float)
         for x in range(width):
             for y in range(height):
                 self.image_arr[x, y] = (0, 0, 0)
+                self.z_buffer[x, y] = 10000
 
     def loadImage(self, imageName):
         image = Image.open(imageName)  # Открываем изображение
@@ -25,6 +27,12 @@ class MyImage:
             print("Cords out of range")
             return
         self.image_arr[x, y] = value
+
+    def setZ(self, x, y, z):
+        if x > self.height or y > self.width:
+            print("Cords out of range")
+            return
+        self.z_buffer[x, y] = z
 
     def get(self, x, y):
         if x > self.height or y > self.width:

@@ -27,7 +27,7 @@ model = Model()
 #
 # image.save('Output/Task7_rabbit.jpg')
 
-model.load('Test_alien.obj', (0,3,6), -28, 450, -28, 700)
+model.load('Test_alien.obj', (0, 3, 6), -28, 450, -28, 700, (0, 0, 1))
 cords = model.getCords()
 poligons = model.getPoligons()
 points = model.getPoints()

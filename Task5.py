@@ -14,7 +14,7 @@ model = Model()
 #
 # image.save('Output/Task5_rabbit.jpg')
 #
-model.load('Test_alien.obj', (0, 3, 6))
+model.load('Test_alien.obj', (0, 3, 6), -28, 450, -28, 700, (0, 0, 1))
 cords = model.getCords()
 
 image = MyImage(1000, 1000)

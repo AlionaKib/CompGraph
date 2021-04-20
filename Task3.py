@@ -76,6 +76,10 @@ class Drawer:
         point1 = model.points[polygon[1] - 1]
         point2 = model.points[polygon[2] - 1]
 
+        cords0 = model.cords[polygon[0] - 1]
+        cords1 = model.cords[polygon[1] - 1]
+        cords2 = model.cords[polygon[2] - 1]
+
         xmin = min(point0[0], point1[0], point2[0])
         if (xmin < 0):
             xmin = 0
@@ -93,7 +97,10 @@ class Drawer:
             for y in range(ymin, ymax+1):
                 bar_coef = model.getBaricentCords((x, y), polygon)
                 if bar_coef[0] > 0 and bar_coef[1] > 0 and bar_coef[2] > 0:
-                    image.set(x, y, color)
+                    z = bar_coef[0]*cords0[2] + bar_coef[1]*cords1[2] + bar_coef[2]*cords2[2]
+                    if z < image.z_buffer[x][y]:
+                        image.set(x, y, color)
+                        image.setZ(x, y, z)
 
 
 drawer = Drawer()
