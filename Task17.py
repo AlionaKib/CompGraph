@@ -13,7 +13,7 @@ poligons = model.getPoligons()
 points = model.getPoints()
 cos_lights = model.getCos_light()
 
-model.rotate(0, 45, 0)
+model.rotate(0, 90, 0)
 
 drawer = Drawer()
 
