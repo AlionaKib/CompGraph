@@ -33,7 +33,7 @@ class Drawer:
             startPoint, finishPoint = finishPoint, startPoint
         for x in range(startPoint[0], finishPoint[0]):
             t = (x - startPoint[0]) / (finishPoint[0] - startPoint[0])
-            y = int(round(startPoint[1] * (1 - t) + finishPoint[1] * t) )
+            y = int(round(startPoint[1] * (1 - t) + finishPoint[1] * t))
             if steep:
                 image.set(y, x, color)
             else:
@@ -70,6 +70,30 @@ class Drawer:
                 else:
                     y += 1
                 error -= 1
+
+    def drawPolygon(self, model, polygon, image, color):
+        point0 = model.points[polygon[0] - 1]
+        point1 = model.points[polygon[1] - 1]
+        point2 = model.points[polygon[2] - 1]
+
+        xmin = min(point0[0], point1[0], point2[0])
+        if (xmin < 0):
+            xmin = 0
+        xmax = max(point0[0], point1[0], point2[0])
+        if (xmax < 0):
+            xmax = image.width
+        ymin = min(point0[1], point1[1], point2[1])
+        if (ymin < 0):
+            ymin = 0
+        ymax = max(point0[1], point1[1], point2[1])
+        if (ymax < 0):
+            ymax = image.height
+
+        for x in range(xmin, xmax+1):
+            for y in range(ymin, ymax+1):
+                bar_coef = model.getBaricentCords((x, y), polygon)
+                if bar_coef[0] > 0 and bar_coef[1] > 0 and bar_coef[2] > 0:
+                    image.set(x, y, color)
 
 
 drawer = Drawer()
