@@ -111,7 +111,7 @@ class Drawer:
                 if bar_coef[0] > 0 and bar_coef[1] > 0 and bar_coef[2] > 0:
                     if use_z_buffer:
                         z = bar_coef[0]*cords0[2] + bar_coef[1]*cords1[2] + bar_coef[2]*cords2[2]
-                        if image.getZ(x, y) > 0 and z < image.getZ(x, y):
+                        if z > image.getZ(x, y):
                             image.set(x, y, color)
                             image.setZ(x, y, z)
                     else:

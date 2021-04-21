@@ -8,6 +8,8 @@ model = Model()
 
 model.load('Test_alien.obj', (0, 3, 6))
 model.setScale(-28, -28, 450, 700, False)
+#model.load('Test_rabbit.obj', (0, 3, 6))
+#model.setScale(-8000, -8000, 500, 900, False)
 cords = model.getCords()
 poligons = model.getPoligons()
 points = model.getPoints()
@@ -30,3 +32,4 @@ for polygon in poligons:
     k += 1
 
 image.save('Output/Task13-14_alien.jpg')
+#image.save('Output/Task13-14_rabbit.jpg')

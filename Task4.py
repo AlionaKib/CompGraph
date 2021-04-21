@@ -36,24 +36,7 @@ class Model:
                 nums = [int(i) for i in nums]
                 t = (nums[polygonsNumber[0]], nums[polygonsNumber[1]], nums[polygonsNumber[2]])
                 self.poligons.append(t)
-
-        for polygon in self.poligons:
-            cords0 = self.cords[polygon[0] - 1]
-            cords1 = self.cords[polygon[1] - 1]
-            cords2 = self.cords[polygon[2] - 1]
-            vec1 = (cords1[0] - cords0[0], cords1[1] - cords0[1], cords1[2] - cords0[2])
-            vec2 = (cords1[0] - cords2[0], cords1[1] - cords2[1], cords1[2] - cords2[2])
-            i_norm = vec1[1] * vec2[2] - vec1[2] * vec2[1]
-            j_norm = -vec1[0] * vec2[2] - vec1[2] * vec2[0]
-            k_norm = vec1[0] * vec2[1] - vec1[1] * vec2[0]
-            norm = (i_norm, j_norm, k_norm)
-            self.normals.append(norm)
-
-            norm_l = math.sqrt(math.pow(self.light[0], 2) + math.pow(self.light[1], 2) + math.pow(self.light[2], 2))
-            norm_n = math.sqrt(math.pow(norm[0], 2) + math.pow(norm[1], 2) + math.pow(norm[2], 2))
-            cos_light = (norm[0] * self.light[0] + norm[1] * self.light[1] + norm[2] * self.light[2]) / (norm_l * norm_n)
-            self.cos_light.append(cos_light)
-
+        self.calcCos()
         f.close()
 
     def setScale_t(self, ax, ay, u0, v0, proect, t):
@@ -67,6 +50,7 @@ class Model:
             self.changeScale_proect()
         else:
             self.changeScale()
+        self.calcCos()
 
     def setScale(self, ax, ay, u0, v0, proect):
         self.ax = ax
@@ -78,6 +62,29 @@ class Model:
             self.changeScale_proect()
         else:
             self.changeScale()
+
+        self.calcCos()
+
+    def calcCos(self):
+        self.cos_light.clear()
+        self.normals.clear()
+        for polygon in self.poligons:
+            cords0 = self.cords[polygon[0] - 1]
+            cords1 = self.cords[polygon[1] - 1]
+            cords2 = self.cords[polygon[2] - 1]
+            vec1 = (cords1[0] - cords0[0], cords1[1] - cords0[1], cords1[2] - cords0[2])
+            vec2 = (cords1[0] - cords2[0], cords1[1] - cords2[1], cords1[2] - cords2[2])
+            i_norm = vec1[1] * vec2[2] - vec1[2] * vec2[1]
+            j_norm = -vec1[0] * vec2[2] + vec1[2] * vec2[0]
+            k_norm = vec1[0] * vec2[1] - vec1[1] * vec2[0]
+            norm = (i_norm, j_norm, k_norm)
+            self.normals.append(norm)
+
+            norm_l = math.sqrt(math.pow(self.light[0], 2) + math.pow(self.light[1], 2) + math.pow(self.light[2], 2))
+            norm_n = math.sqrt(math.pow(norm[0], 2) + math.pow(norm[1], 2) + math.pow(norm[2], 2))
+            cos_light = (norm[0] * self.light[0] + norm[1] * self.light[1] + norm[2] * self.light[2]) / (
+                        norm_l * norm_n)
+            self.cos_light.append(cos_light)
 
     def changeScale(self):
         self.points.clear()
@@ -161,3 +168,4 @@ class Model:
         self.cords = temp_cords
 
         self.changeScale()
+        self.calcCos()

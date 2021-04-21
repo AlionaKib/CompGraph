@@ -6,8 +6,10 @@ import numpy as np
 
 model = Model()
 
-model.load('Test_alien.obj', (0, 3, 6))
-model.setScale(-28, -28, 450, 700, False)
+#model.load('Test_alien.obj', (0, 3, 6))
+#model.setScale(-28, -28, 450, 700, False)
+model.load('Test_rabbit.obj', (0, 3, 6))
+model.setScale(-8000, -8000, 500, 900, False)
 poligons = model.getPoligons()
 cos_lights = model.getCos_light()
 
@@ -30,4 +32,5 @@ for polygon in poligons:
         last_percent = percent_compl
     k += 1
 
-image.save('Output/Task15_alien.jpg')
+#image.save('Output/Task15_alien.jpg')
+image.save('Output/Task15_rabbit.jpg')

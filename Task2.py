@@ -13,7 +13,7 @@ class MyImage:
         for x in range(width):
             for y in range(height):
                 self.image_arr[x, y] = (0, 0, 0)
-                self.z_buffer[x, y] = 10000
+                self.z_buffer[x, y] = -100
 
     def loadImage(self, imageName):
         image = Image.open(imageName)  # Открываем изображение
@@ -31,16 +31,11 @@ class MyImage:
             self.z_buffer[x, y] = z
 
     def getZ(self, x, y):
-        if x < self.height and y < self.width and x >= 0 and y >= 0:
-            return self.z_buffer[x, y]
-        else:
-            return -1
+        return self.z_buffer[x, y]
+
 
     def get(self, x, y):
-        if x < self.height and y < self.width and x >= 0 and y >= 0:
-            return self.image_arr[x, y]
-        else:
-            return -1
+        return self.image_arr[x, y]
 
     def save(self, imageName):
         image = Image.new("RGB", self.size)  # Создаем изображение. L - 8 бит, черно-белое
