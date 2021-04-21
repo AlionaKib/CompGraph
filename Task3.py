@@ -97,13 +97,15 @@ class Drawer:
         if (ymin < 0 and ymax < 0) or (ymin >= image.height and ymax >= image.height):
             return
         if (ymin < 0):
-                xmin = 0
+            ymin = 0
         if (ymax < 0):
             ymax = 0
         if (ymax >= image.height):
             ymax = image.height - 1
         if (ymin >= image.height):
             ymin = image.height - 1
+
+        p = 1
 
         for x in range(xmin, xmax+1):
             for y in range(ymin, ymax+1):

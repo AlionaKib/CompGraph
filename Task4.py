@@ -114,8 +114,8 @@ class Model:
         self.points.clear()
         self.cords_scale.clear()
         for cord in self.cords:
-            x_scale = self.ax * (cord[0] + self.t[0]) + self.u0 * (cord[2] + self.t[2])
-            y_scale = self.ay * (cord[1] + self.t[1]) + self.v0 * (cord[2] + self.t[2])
+            x_scale = self.ax * (cord[0] / (cord[2] + 1000)) + self.u0
+            y_scale = self.ay * (cord[1] / (cord[2] + 1000)) + self.v0
             x = int(x_scale)
             y = int(y_scale)
             point = (x, y)
