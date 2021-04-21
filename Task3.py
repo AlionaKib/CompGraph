@@ -71,7 +71,7 @@ class Drawer:
                     y += 1
                 error -= 1
 
-    def drawPolygon(self, model, polygon, image, color):
+    def drawPolygon(self, model, polygon, image, color, use_z_buffer):
         point0 = model.points[polygon[0] - 1]
         point1 = model.points[polygon[1] - 1]
         point2 = model.points[polygon[2] - 1]
@@ -81,26 +81,41 @@ class Drawer:
         cords2 = model.cords[polygon[2] - 1]
 
         xmin = min(point0[0], point1[0], point2[0])
-        if (xmin < 0):
-            xmin = 0
         xmax = max(point0[0], point1[0], point2[0])
+        if (xmin < 0 and xmax < 0) or (xmin >= image.width and xmax >= image.width):
+            return
+        if (xmin < 0):
+                xmin = 0
         if (xmax < 0):
-            xmax = image.width
+            xmax = 0
+        if (xmax >= image.width):
+            xmax = image.width - 1
+        if (xmin >= image.width):
+            xmin = image.width - 1
         ymin = min(point0[1], point1[1], point2[1])
-        if (ymin < 0):
-            ymin = 0
         ymax = max(point0[1], point1[1], point2[1])
+        if (ymin < 0 and ymax < 0) or (ymin >= image.height and ymax >= image.height):
+            return
+        if (ymin < 0):
+                xmin = 0
         if (ymax < 0):
-            ymax = image.height
+            ymax = 0
+        if (ymax >= image.height):
+            ymax = image.height - 1
+        if (ymin >= image.height):
+            ymin = image.height - 1
 
         for x in range(xmin, xmax+1):
             for y in range(ymin, ymax+1):
                 bar_coef = model.getBaricentCords((x, y), polygon)
                 if bar_coef[0] > 0 and bar_coef[1] > 0 and bar_coef[2] > 0:
-                    z = bar_coef[0]*cords0[2] + bar_coef[1]*cords1[2] + bar_coef[2]*cords2[2]
-                    if z < image.z_buffer[x][y]:
+                    if use_z_buffer:
+                        z = bar_coef[0]*cords0[2] + bar_coef[1]*cords1[2] + bar_coef[2]*cords2[2]
+                        if image.getZ(x, y) > 0 and z < image.getZ(x, y):
+                            image.set(x, y, color)
+                            image.setZ(x, y, z)
+                    else:
                         image.set(x, y, color)
-                        image.setZ(x, y, z)
 
 
 drawer = Drawer()

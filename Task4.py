@@ -15,8 +15,10 @@ class Model:
         self.ay = 1
         self.u0 = 0
         self.v0 = 0
+        self.t = (0, 0, 1)
+        self.light = (0, 0, 1)
 
-    def load(self, fileName, polygonsNumber, light):
+    def load(self, fileName, polygonsNumber):
         f = open(fileName)
         self.cords.clear()
         self.poligons.clear()
@@ -47,27 +49,55 @@ class Model:
             norm = (i_norm, j_norm, k_norm)
             self.normals.append(norm)
 
-            norm_l = math.sqrt(math.pow(light[0], 2) + math.pow(light[1], 2) + math.pow(light[2], 2))
+            norm_l = math.sqrt(math.pow(self.light[0], 2) + math.pow(self.light[1], 2) + math.pow(self.light[2], 2))
             norm_n = math.sqrt(math.pow(norm[0], 2) + math.pow(norm[1], 2) + math.pow(norm[2], 2))
-            cos_light = (norm[0] * light[0] + norm[1] * light[1] + norm[2] * light[2]) / (norm_l * norm_n)
+            cos_light = (norm[0] * self.light[0] + norm[1] * self.light[1] + norm[2] * self.light[2]) / (norm_l * norm_n)
             self.cos_light.append(cos_light)
 
         f.close()
 
-    def setScale(self, ax, ay, u0, v0):
+    def setScale_t(self, ax, ay, u0, v0, proect, t):
+        self.ax = ax
+        self.ay = ay
+        self.u0 = u0
+        self.v0 = v0
+        self.t = t
+
+        if proect:
+            self.changeScale_proect()
+        else:
+            self.changeScale()
+
+    def setScale(self, ax, ay, u0, v0, proect):
         self.ax = ax
         self.ay = ay
         self.u0 = u0
         self.v0 = v0
 
+        if proect:
+            self.changeScale_proect()
+        else:
+            self.changeScale()
+
     def changeScale(self):
         self.points.clear()
         self.cords_scale.clear()
         for cord in self.cords:
-            # x_scale = ax * (cord[0] + t[0]) + u0 * cord[2]
-            # y_scale = ay * (cord[1] + t[1]) + v0 * cord[2]
             x_scale = self.ax * cord[0] + self.u0
             y_scale = self.ay * cord[1] + self.v0
+            x = int(x_scale)
+            y = int(y_scale)
+            point = (x, y)
+            point_scale = (x_scale, y_scale)
+            self.points.append(point)
+            self.cords_scale.append(point_scale)
+
+    def changeScale_proect(self):
+        self.points.clear()
+        self.cords_scale.clear()
+        for cord in self.cords:
+            x_scale = self.ax * (cord[0] + self.t[0]) + self.u0 * (cord[2] + self.t[2])
+            y_scale = self.ay * (cord[1] + self.t[1]) + self.v0 * (cord[2] + self.t[2])
             x = int(x_scale)
             y = int(y_scale)
             point = (x, y)
@@ -109,6 +139,9 @@ class Model:
         return baricent_cords
 
     def rotate(self, alpha, betta, gamma):
+        alpha = alpha * math.pi / 180
+        betta = betta * math.pi / 180
+        gamma = gamma * math.pi / 180
         a = np.array([[1, 0, 0], [0, math.cos(alpha), math.sin(alpha)], [0, -math.sin(alpha), math.cos(alpha)]])
         b = np.array([[math.cos(betta), 0, math.sin(betta)], [0, 1, 0], [-math.sin(betta), 0, math.cos(betta)]])
         c = np.array([[math.cos(gamma), math.sin(gamma), 0], [-math.sin(gamma), math.cos(gamma), 0], [0, 0, 1]])

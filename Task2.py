@@ -23,22 +23,24 @@ class MyImage:
         self.image_arr = image.load()  # Выгружаем значения пикселей
 
     def set(self, x, y, value):
-        if x > self.height or y > self.width:
-            print("Cords out of range")
-            return
-        self.image_arr[x, y] = value
+        if x < self.height and y < self.width and x >= 0 and y >=0:
+            self.image_arr[x, y] = value
 
     def setZ(self, x, y, z):
-        if x > self.height or y > self.width:
-            print("Cords out of range")
-            return
-        self.z_buffer[x, y] = z
+        if x < self.height and y < self.width and x >= 0 and y >= 0:
+            self.z_buffer[x, y] = z
+
+    def getZ(self, x, y):
+        if x < self.height and y < self.width and x >= 0 and y >= 0:
+            return self.z_buffer[x, y]
+        else:
+            return -1
 
     def get(self, x, y):
-        if x > self.height or y > self.width:
-            print("Cords out of range")
-            return
-        return self.image_arr[x, y]
+        if x < self.height and y < self.width and x >= 0 and y >= 0:
+            return self.image_arr[x, y]
+        else:
+            return -1
 
     def save(self, imageName):
         image = Image.new("RGB", self.size)  # Создаем изображение. L - 8 бит, черно-белое

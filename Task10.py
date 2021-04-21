@@ -1,17 +1,15 @@
 from Task4 import Model
 from Task2 import MyImage
 from Task3 import Drawer
-import random
 import numpy as np
 
 model = Model()
 
 model.load('Test_alien.obj', (0, 3, 6))
-model.setScale(-28, -28, 450, 700, False)
+model.setScale(-50, -50, 450, 700, False)
 cords = model.getCords()
 poligons = model.getPoligons()
 points = model.getPoints()
-cos_lights = model.getCos_light()
 
 drawer = Drawer()
 
@@ -21,12 +19,11 @@ k = 0
 last_percent = 0
 print('Percent compl:')
 for polygon in poligons:
-    if cos_lights[k] < 0:
-        drawer.drawPolygon(model, polygon, image, (int(-255 * cos_lights[k]), int(-255 * cos_lights[k]), int(-255 * cos_lights[k])), False)
-    percent_compl = int(k / len(poligons) * 100)
-    if percent_compl % 5 == 0 and last_percent != percent_compl:
+    drawer.drawPolygon(model, polygon, image, (255, 255, 255), False)
+    percent_compl = int(k/len(poligons)*100)
+    if percent_compl%5 == 0 and last_percent != percent_compl:
         print(percent_compl)
         last_percent = percent_compl
     k += 1
 
-image.save('Output/Task13-14_alien.jpg')
+image.save('Output/Task10_alien.jpg')
