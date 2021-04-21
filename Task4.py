@@ -10,7 +10,9 @@ class Model:
         self.points = []
         self.cords_scale = []
         self.normals = []
+        self.vect_normals = []
         self.cos_light = []
+        self.apex_normals = []
         self.ax = 1
         self.ay = 1
         self.u0 = 0
@@ -22,6 +24,7 @@ class Model:
         f = open(fileName)
         self.cords.clear()
         self.poligons.clear()
+        self.apex_normals.clear()
         for line in f:
             s = line
             if len(s) > 0 and (s[0] == 'v') and (s[1] == ' '):
@@ -30,12 +33,20 @@ class Model:
                 nums = [float(i) for i in nums]
                 t = (nums[0], nums[1], nums[2])
                 self.cords.append(t)
+            if len(s) > 0 and (s[0] == 'v') and (s[1] == 'n') and (s[2] == ' '):
+                t = ()
+                nums = re.findall(r'[-+]?[.]?[\d]+(?:,\d\d\d)*[\.]?\d*(?:[eE][-+]?\d+)?', s)
+                nums = [float(i) for i in nums]
+                t = (nums[0], nums[1], nums[2])
+                self.vect_normals.append(t)
             if len(s) > 0 and (s[0] == 'f') and (s[1] == ' '):
                 t = ()
                 nums = re.findall(r'\d+', s)
                 nums = [int(i) for i in nums]
                 t = (nums[polygonsNumber[0]], nums[polygonsNumber[1]], nums[polygonsNumber[2]])
+                an = (nums[polygonsNumber[0]+2], nums[polygonsNumber[1]+2], nums[polygonsNumber[2]+2])
                 self.poligons.append(t)
+                self.apex_normals.append(an)
         self.calcCos()
         f.close()
 
@@ -123,6 +134,9 @@ class Model:
 
     def getCos_light(self):
         return self.cos_light
+
+    def getApex_normals(self):
+        return self.apex_normals
 
     def getBaricentCords(self, point, polygon):
         cords0 = self.cords_scale[polygon[0] - 1]

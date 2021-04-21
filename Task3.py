@@ -117,6 +117,70 @@ class Drawer:
                     else:
                         image.set(x, y, color)
 
+    def calclight(self, l, n0, n1, n2, bar_cords):
+        norm_l = math.sqrt(math.pow(l[0], 2) + math.pow(l[1], 2) + math.pow(l[2], 2))
+        norm_n0 = math.sqrt(math.pow(n0[0], 2) + math.pow(n0[1], 2) + math.pow(n0[2], 2))
+        norm_n1 = math.sqrt(math.pow(n1[0], 2) + math.pow(n1[1], 2) + math.pow(n1[2], 2))
+        norm_n2 = math.sqrt(math.pow(n2[0], 2) + math.pow(n2[1], 2) + math.pow(n2[2], 2))
+        l0 = (n0[0] * l[0] + n0[1] * l[1] + n0[2] * l[2]) / (norm_l * norm_n0)
+        l1 = (n1[0] * l[0] + n1[1] * l[1] + n1[2] * l[2]) / (norm_l * norm_n1)
+        l2 = (n2[0] * l[0] + n2[1] * l[1] + n2[2] * l[2]) / (norm_l * norm_n2)
+
+        light = 255 * (bar_cords[0] * l0 + bar_cords[1] * l1 + bar_cords[2] * l2)
+
+        return light
+
+    def drawPolygon_Guro(self, model, polygon, apex_norm, image):
+        point0 = model.points[polygon[0] - 1]
+        point1 = model.points[polygon[1] - 1]
+        point2 = model.points[polygon[2] - 1]
+
+        cords0 = model.cords[polygon[0] - 1]
+        cords1 = model.cords[polygon[1] - 1]
+        cords2 = model.cords[polygon[2] - 1]
+
+        xmin = min(point0[0], point1[0], point2[0])
+        xmax = max(point0[0], point1[0], point2[0])
+        if (xmin < 0 and xmax < 0) or (xmin >= image.width and xmax >= image.width):
+            return
+        if (xmin < 0):
+            xmin = 0
+        if (xmax < 0):
+            xmax = 0
+        if (xmax >= image.width):
+            xmax = image.width - 1
+        if (xmin >= image.width):
+            xmin = image.width - 1
+        ymin = min(point0[1], point1[1], point2[1])
+        ymax = max(point0[1], point1[1], point2[1])
+        if (ymin < 0 and ymax < 0) or (ymin >= image.height and ymax >= image.height):
+            return
+        if (ymin < 0):
+            xmin = 0
+        if (ymax < 0):
+            ymax = 0
+        if (ymax >= image.height):
+            ymax = image.height - 1
+        if (ymin >= image.height):
+            ymin = image.height - 1
+
+        l = model.light
+
+        n0 = model.vect_normals[apex_norm[0] - 1]
+        n1 = model.vect_normals[apex_norm[1] - 1]
+        n2 = model.vect_normals[apex_norm[2] - 1]
+
+        for x in range(xmin, xmax + 1):
+            for y in range(ymin, ymax + 1):
+                bar_coef = model.getBaricentCords((x, y), polygon)
+                if bar_coef[0] > 0 and bar_coef[1] > 0 and bar_coef[2] > 0:
+                    z = bar_coef[0] * cords0[2] + bar_coef[1] * cords1[2] + bar_coef[2] * cords2[2]
+                    if z > image.getZ(x, y):
+                        color = int(self.calclight(l, n0, n1, n2, bar_coef))
+                        image.set(x, y, (color, color, color))
+                        image.setZ(x, y, z)
+
+
 
 drawer = Drawer()
 
